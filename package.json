@@ -47,8 +47,12 @@
     "whatwg-fetch": "2.0.2"
   },
   "dependencies": {
+    "ramda": "^0.23.0",
     "react": "^15.4.2",
-    "react-dom": "^15.4.2"
+    "react-dom": "^15.4.2",
+    "react-redux": "^5.0.2",
+    "reducer-pipe": "^1.0.1",
+    "redux": "^3.6.0"
   },
   "scripts": {
     "start": "node scripts/start.js",
