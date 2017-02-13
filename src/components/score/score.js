@@ -8,7 +8,7 @@ import {
 } from './score.redux';
 import './score.css';
 
-class Score extends Component {
+export class Score extends Component {
   render() {
     const {
       questionsAnswered,
