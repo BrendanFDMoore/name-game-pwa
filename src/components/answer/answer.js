@@ -4,10 +4,12 @@ export class Answer extends Component {
   render() {
     const {
       label,
+      isCorrect,
+      answerHandler,
     } = this.props;
     return (
-      <div className="Answer">
-        { label }
+      <div className="Answer" >
+        <input type='button' onClick={() => answerHandler(isCorrect)} value={ label } />
       </div>
     );
   }
@@ -15,7 +17,8 @@ export class Answer extends Component {
 
 Answer.PropTypes = {
   label: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired,
+  isCorrect: PropTypes.bool.isRequired,
+  answerHandler: PropTypes.func.isRequired,
 };
 
 export default Answer;

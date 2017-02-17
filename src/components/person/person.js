@@ -4,17 +4,18 @@ export class Person extends Component {
   render() {
     const {
       name,
-      image,
+      imageFilename,
       group,
       shouldShowName,
     } = this.props;
+
     return (
       <div className="Person">
         <div className="Person-image">
-          <img alt='headshot' src={image} width='200' />
+          <img alt='headshot' src={require(`../../images/${imageFilename}`)} width='200' />
         </div>
         <div className="Person-name">
-          { shouldShowName ? name : '???' }
+          Name: { shouldShowName ? name : '???' }
         </div>
         { shouldShowName && group &&
           <div className="Person-name">
