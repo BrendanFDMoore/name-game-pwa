@@ -1,8 +1,9 @@
-import score from '../components/score/score.redux'
 import { combineReducers } from 'redux';
+import score from '../components/score/score.redux'
+import game from '../components/game/game.redux'
 
-console.log('root reducer?');
 const rootReducer = combineReducers({
+  game,
   score,
 });
 
