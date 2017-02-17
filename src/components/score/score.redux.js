@@ -1,5 +1,4 @@
 import { pathOr } from 'ramda';
-// import { combineReducers } from 'redux';
 import reducerPipe from 'reducer-pipe';
 
 // ACTION TYPES

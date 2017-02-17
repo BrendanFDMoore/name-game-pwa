@@ -9,19 +9,14 @@ export const createInitializeAction = () => ({ type: INITIALIZE });
 
 /***************** WATCHERS ********************/
 export function* watchInitialize() {
-  console.log('watchInitialize');
   yield takeLatest(INITIALIZE, initialize);
 }
 
 function* initialize(action) {
-  console.log('initialize');
-
   yield call(randomizeProfiles);
 }
 
 function* randomizeProfiles() {
-  console.log('randomizeProfiles');
-  
   const questions = PROFILES.map(
     p => R.assoc('rng', Math.random(), p)
   )
@@ -57,10 +52,5 @@ function* randomizeProfiles() {
     }
   );
 
-  console.log('questions');
-  console.log(questions);
-  console.log('answers');
-  console.log(answers);
   yield put(questionsReady(questions, answers));
-  console.log('after put?');
 }
