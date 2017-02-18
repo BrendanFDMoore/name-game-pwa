@@ -5,7 +5,9 @@ import { Question } from './index';
 describe('Question component', () =>{
   it('renders without crashing', () => {
     const questionProps = {
-      person: {},
+      question: {
+        image: 'tonystark1.jpg'
+      },
       answers: [{}, {}],
     };
 
