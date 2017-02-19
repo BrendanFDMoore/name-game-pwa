@@ -1,0 +1,20 @@
+.Game-logo {
+  animation: Game-logo-spin infinite 10s linear;
+  height: 80px;
+}
+
+.Game-header {
+  background-color: #AAA;
+  height: 175px;
+  padding: 15px;
+  color: white;
+}
+
+.Game-intro {
+  font-size: large;
+}
+
+@keyframes Game-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}

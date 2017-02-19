@@ -1,6 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
+import './game.css';
+import face from '../../face.png';
+
 import Question from '../question';
 import Score from '../score';
 import {
@@ -28,6 +31,20 @@ export class Game extends Component {
       hasPlayed,
       clickedPlay,
     } = this.props;
+
+    const preamble = (
+      <div>
+        <div className="Game-header">
+          <img src={face} className="Game-logo" alt="logo" />
+          <h2>The Name Game</h2>
+          <p>A game to help you put names to faces.</p>
+        </div>
+        <p className="Game-intro">
+          Try to name the people shown in the picture.
+        </p>
+      </div>
+    );
+
     const activeGame = (
       <div>
         <div>
@@ -71,7 +88,8 @@ export class Game extends Component {
     );
     return (
       <div className="Game">
-        {isPlaying ? activeGame : inactiveGame }
+        { preamble }
+        { isPlaying ? activeGame : inactiveGame }
       </div>
     );
   }
