@@ -3,8 +3,6 @@ import { connect } from 'react-redux';
 import {
   selectQuestionsAnswered,
   selectCorrectlyAnswered,
-  resetScore,
-  recordAnswer,
 } from './score.redux';
 import './score.css';
 
@@ -23,11 +21,6 @@ export class Score extends Component {
         <div className="Score-values">
           {`${correctlyAnswered} / ${questionsAnswered} (${pct} %)`}
         </div>
-        <div className="Score-buttons">
-          <input type='button' onClick={() => this.props.recordAnswer(true)} value='Correct' />
-          <input type='button' onClick={() => this.props.recordAnswer(false)} value='Incorrect' />
-          <input type='button' onClick={this.props.resetScore} value='Reset Score' />
-        </div>
       </div>
     );
   }
@@ -36,8 +29,6 @@ export class Score extends Component {
 Score.PropTypes = {
   questionsAnswered: PropTypes.number.isRequired,
   correctlyAnswered: PropTypes.number.isRequired,
-  recordAnswer: PropTypes.func.isRequired,
-  resetScore: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state, props) {
@@ -49,8 +40,6 @@ function mapStateToProps(state, props) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    resetScore: () => dispatch(resetScore()),
-    recordAnswer: (answerWasCorrect) => dispatch(recordAnswer(answerWasCorrect)),
   };
 }
 

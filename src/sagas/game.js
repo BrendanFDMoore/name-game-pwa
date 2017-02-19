@@ -5,20 +5,21 @@ import { call, put, select } from 'redux-saga/effects'
 import { PROFILES } from '../config/people';
 import {
   ACTION_TYPES as GAME_ACTIONS,
+  begin as beginGame,
   questionsReady,
   nextQuestion,
   end as endGame,
   selectCurrentQuestionIndex,
   selectNumberOfQuestions,
 } from '../components/game/game.redux'
-import { recordAnswer } from '../components/score/score.redux'
+import { resetScore, recordAnswer } from '../components/score/score.redux'
 
 const INITIALIZE = 'SAGAS/INITIALIZE';
 export const createInitializeAction = () => ({ type: INITIALIZE });
 
 /***************** WATCHERS ********************/
-export function* watchInitialize() {
-  yield takeLatest(INITIALIZE, initialize);
+export function* watchClickedPlay() {
+  yield takeLatest(GAME_ACTIONS.CLICKED_PLAY, clickedPlay);
 }
 
 export function* watchQuestionAnswered() {
@@ -26,11 +27,18 @@ export function* watchQuestionAnswered() {
 }
 
 /***************** WORKERS ********************/
-function* initialize(action) {
-  yield call(randomizeProfiles);
+function* clickedPlay(action) {
+  // reset the score
+  yield put(resetScore())
+  
+  // set up the questions
+  yield call(generateQuestions);
+
+  // start the game
+  yield put(beginGame())
 }
 
-function* randomizeProfiles() {
+export function* generateQuestions() {
   const questions = PROFILES.map(
     p => R.assoc('rng', Math.random(), p)
   )
@@ -76,7 +84,7 @@ function* processAnswer(action) {
   const numberOfQuestions = yield select(selectNumberOfQuestions);
   
   // leave a short time for player to review revealed answer
-  yield call(delay, 2000);
+  yield call(delay, 1000);
 
   // Are there any more questions to go to?
   if (currentQuestionIndex + 1 < numberOfQuestions) {

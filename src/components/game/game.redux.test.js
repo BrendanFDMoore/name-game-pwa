@@ -2,6 +2,7 @@ import {
   ACTION_TYPES,
   questionsReady,
   answeredQuestion,
+  clickedPlay,
   begin,
   end,
   reset,
@@ -10,6 +11,7 @@ import {
   selectCurrentQuestionIndex,
   selectCurrentQuestion,
   selectCurrentAnswers,
+  selectHasPlayed,
 } from './game.redux';
 
 describe('Game redux suite', () => {
@@ -19,6 +21,15 @@ describe('Game redux suite', () => {
         expect(reset())
         .toEqual({
           type: ACTION_TYPES.RESET,
+        });
+      });
+    });
+
+    describe('clickedPlay', () => {
+      it('creates a clicked play action', () => {
+        expect(clickedPlay())
+        .toEqual({
+          type: ACTION_TYPES.CLICKED_PLAY,
         });
       });
     });
@@ -87,7 +98,6 @@ describe('Game redux suite', () => {
         ],
         currentQuestion: 2,
         hasAnsweredCurrentQuestion: true,
-        hasPlayed: false,
         isPlaying: true,
         playCount: 3,
       },
@@ -145,6 +155,17 @@ describe('Game redux suite', () => {
       it('returns the correct value', () => {
         expect(selectCurrentAnswers(mockState))
         .toEqual([{text: 'C'}, {text: 'D'}, {text: 'A'}, {text: 'B'}]);
+      });
+    });
+
+    describe('selectHasPlayed', () => {
+      it('returns the correct default value', () => {
+        expect(selectHasPlayed(null))
+        .toEqual(false);
+      });
+      it('returns the correct value', () => {
+        expect(selectHasPlayed(mockState))
+        .toEqual(true);
       });
     });
   });
