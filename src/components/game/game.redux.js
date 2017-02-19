@@ -5,6 +5,7 @@ import { createSelector } from 'reselect';
 // ACTION TYPES
 const RESET = 'GAME/RESET';
 const QUESTIONS_READY = 'GAME/QUESTIONS_READY';
+const ANSWERED_QUESTION = 'GAME/ANSWERED_QUESTION';
 const NEXT_QUESTION = 'GAME/NEXT_QUESTION';
 const BEGIN = 'GAME/BEGIN';
 const END = 'GAME/FINISH';
@@ -13,6 +14,7 @@ export const ACTION_TYPES = {
   NEXT_QUESTION,
   END,
   QUESTIONS_READY,
+  ANSWERED_QUESTION,
   RESET,
 };
 
@@ -23,6 +25,15 @@ export const questionsReady = (questions, answers) => {
     payload: { 
       questions,
       answers,
+    }
+  }
+};
+
+export const answeredQuestion = (isCorrect) => {
+  return {
+    type: ANSWERED_QUESTION,
+    payload: { 
+      isCorrect,
     }
   }
 };
@@ -119,19 +130,31 @@ const questionsReadyReducer = (state = INITIAL_STATE, action) => {
   return state;
 };
 
+const answeredQuestionReducer = (state = INITIAL_STATE, action) => {
+  if (action.type === ANSWERED_QUESTION) {
+    return Object.assign({}, state, {
+      hasAnsweredCurrentQuestion: true,
+    });
+  }
+
+  return state;
+};
+
 // COMBINED REDUCER
 const gameReducer = reducerPipe([
   resetReducer,
-  beginReducer,
-  endReducer,
-  nextQuestionReducer,
   questionsReadyReducer,
+  beginReducer,
+  answeredQuestionReducer,
+  nextQuestionReducer,
+  endReducer,
 ]);
 
 // SELECTORS
-const selectCurrentQuestionIndex = pathOr(0, ['game', 'currentQuestion']);
+export const selectCurrentQuestionIndex = pathOr(0, ['game', 'currentQuestion']);
 const selectQuestions = pathOr([], ['game', 'questions']);
 const selectAnswers = pathOr([], ['game', 'answers']);
+export const selectHasAnsweredCurrentQuestion = pathOr(false, ['game', 'hasAnsweredCurrentQuestion']);
 
 export const selectQuestionNumber = createSelector(
   selectCurrentQuestionIndex,

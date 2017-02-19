@@ -2,17 +2,17 @@ import { pathOr } from 'ramda';
 import reducerPipe from 'reducer-pipe';
 
 // ACTION TYPES
-const ANSWERED_QUESTION = 'SCORE/ANSWERED_QUESTION';
+const RECORD_ANSWER = 'SCORE/RECORD_ANSWER';
 const RESET = 'SCORE/RESET';
 export const ACTION_TYPES = {
-  ANSWERED_QUESTION,
+  RECORD_ANSWER,
   RESET,
 };
 
 // ACTION CREATORS
-export const answeredQuestion = (answerWasCorrect) => {
+export const recordAnswer = (answerWasCorrect) => {
   return {
-    type: ANSWERED_QUESTION,
+    type: RECORD_ANSWER,
     payload: { 
       answerWasCorrect
     }
@@ -27,8 +27,8 @@ export const resetScore = () => {
 
 // INITIAL STATE
 const INITIAL_STATE = {
-  questionsAnswered: 0,
-  correctlyAnswered: 0
+  answered: 0,
+  correct: 0
 };
 
 // REDUCERS
@@ -39,12 +39,12 @@ const resetScoreState = (state = INITIAL_STATE, action) => {
   return state;
 };
 
-const recordAnswer = (state = INITIAL_STATE, action) => {
-  if (action.type === ANSWERED_QUESTION) {
+const recordAnswerReducer = (state = INITIAL_STATE, action) => {
+  if (action.type === RECORD_ANSWER) {
     const answerWasCorrect = pathOr(false, ['payload', 'answerWasCorrect'], action);
     return Object.assign({}, state, {
-      questionsAnswered: state.questionsAnswered + 1,
-      correctlyAnswered: state.correctlyAnswered + (1 * answerWasCorrect),
+      answered: state.answered + 1,
+      correct: state.correct + (1 * answerWasCorrect),
     });
   }
 
@@ -54,12 +54,12 @@ const recordAnswer = (state = INITIAL_STATE, action) => {
 // COMBINED REDUCER
 const scoreReducer = reducerPipe([
   resetScoreState,
-  recordAnswer,
+  recordAnswerReducer,
 ]);
 
 // SELECTORS
-export const selectQuestionsAnswered = pathOr(0, ['score', 'questionsAnswered']);
-export const selectCorrectlyAnswered = pathOr(0, ['score', 'correctlyAnswered']);
+export const selectQuestionsAnswered = pathOr(0, ['score', 'answered']);
+export const selectCorrectlyAnswered = pathOr(0, ['score', 'correct']);
 
 export default scoreReducer;
 
@@ -69,5 +69,5 @@ export default scoreReducer;
 export const TEST_INTERNALS = {
   INITIAL_STATE,
   resetScoreState,
-  recordAnswer,
+  recordAnswerReducer,
 };

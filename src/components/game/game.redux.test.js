@@ -1,9 +1,15 @@
 import {
   ACTION_TYPES,
   questionsReady,
+  answeredQuestion,
   begin,
   end,
   reset,
+  selectHasAnsweredCurrentQuestion,
+  selectNumberOfQuestions,
+  selectCurrentQuestionIndex,
+  selectCurrentQuestion,
+  selectCurrentAnswers,
 } from './game.redux';
 
 describe('Game redux suite', () => {
@@ -42,6 +48,103 @@ describe('Game redux suite', () => {
           type: ACTION_TYPES.QUESTIONS_READY,
           payload: { questions: [1, 2], answers: ['a', 'b'] }
         });
+      });
+    });
+
+    describe('answeredQuestion', () => {
+      it('creates a correct answer action', () => {
+        expect(answeredQuestion(true))
+        .toEqual({
+          type: ACTION_TYPES.ANSWERED_QUESTION,
+          payload: { isCorrect: true }
+        });
+      });
+
+      it('creates an incorrect answer action', () => {
+        expect(answeredQuestion(false))
+        .toEqual({
+          type: ACTION_TYPES.ANSWERED_QUESTION,
+          payload: { isCorrect: false }
+        });
+      });
+    });
+  });
+
+  describe('selectors', () => {
+    const mockState = {
+      game: {
+        questions: [
+          { text: 'A' },
+          { text: 'B' },
+          { text: 'C' },
+          { text: 'D' },
+        ],
+        answers: [
+          [{text: 'A'}, {text: 'B'}, {text: 'C'}, {text: 'D'}],
+          [{text: 'B'}, {text: 'C'}, {text: 'D'}, {text: 'A'}],
+          [{text: 'C'}, {text: 'D'}, {text: 'A'}, {text: 'B'}],
+          [{text: 'D'}, {text: 'A'}, {text: 'B'}, {text: 'C'}],
+        ],
+        currentQuestion: 2,
+        hasAnsweredCurrentQuestion: true,
+        hasPlayed: false,
+        isPlaying: true,
+        playCount: 3,
+      },
+    };
+
+    describe('selectHasAnsweredCurrentQuestion', () => {
+      it('returns the correct default value', () => {
+        expect(selectHasAnsweredCurrentQuestion(null))
+        .toEqual(false);
+      });
+      it('returns the correct value', () => {
+        expect(selectHasAnsweredCurrentQuestion(mockState))
+        .toEqual(true);
+      });
+    });
+
+    describe('selectNumberOfQuestions', () => {
+      it('returns the correct default value', () => {
+        expect(selectNumberOfQuestions(null))
+        .toEqual(0);
+      });
+      it('returns the correct value', () => {
+        expect(selectNumberOfQuestions(mockState))
+        .toEqual(4);
+      });
+    });
+
+    describe('selectCurrentQuestionIndex', () => {
+      it('returns the correct default value', () => {
+        expect(selectCurrentQuestionIndex(null))
+        .toEqual(0);
+      });
+      it('returns the correct value', () => {
+        expect(selectCurrentQuestionIndex(mockState))
+        .toEqual(2);
+      });
+    });
+
+    describe('selectCurrentQuestion', () => {
+      it('returns the correct default value', () => {
+        expect(selectCurrentQuestion(null))
+        .toEqual(undefined);
+      });
+      it('returns the correct value', () => {
+        expect(selectCurrentQuestion(mockState))
+        .toEqual({ text: 'C' });
+      });
+    });
+    
+    describe('selectCurrentAnswers', () => {
+      it('returns the correct default value', () => {
+        expect(selectCurrentAnswers(null))
+        .toEqual(undefined);
+      });
+      it('returns the correct value', () => {
+        expect(selectCurrentAnswers(mockState))
+        .toEqual([{text: 'C'}, {text: 'D'}, {text: 'A'}, {text: 'B'}]);
       });
     });
   });

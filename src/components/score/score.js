@@ -4,7 +4,7 @@ import {
   selectQuestionsAnswered,
   selectCorrectlyAnswered,
   resetScore,
-  answeredQuestion,
+  recordAnswer,
 } from './score.redux';
 import './score.css';
 
@@ -24,8 +24,8 @@ export class Score extends Component {
           {`${correctlyAnswered} / ${questionsAnswered} (${pct} %)`}
         </div>
         <div className="Score-buttons">
-          <input type='button' onClick={() => this.props.answeredQuestion(true)} value='Correct' />
-          <input type='button' onClick={() => this.props.answeredQuestion(false)} value='Incorrect' />
+          <input type='button' onClick={() => this.props.recordAnswer(true)} value='Correct' />
+          <input type='button' onClick={() => this.props.recordAnswer(false)} value='Incorrect' />
           <input type='button' onClick={this.props.resetScore} value='Reset Score' />
         </div>
       </div>
@@ -36,7 +36,7 @@ export class Score extends Component {
 Score.PropTypes = {
   questionsAnswered: PropTypes.number.isRequired,
   correctlyAnswered: PropTypes.number.isRequired,
-  answeredQuestion: PropTypes.func.isRequired,
+  recordAnswer: PropTypes.func.isRequired,
   resetScore: PropTypes.func.isRequired,
 };
 
@@ -50,7 +50,7 @@ function mapStateToProps(state, props) {
 function mapDispatchToProps(dispatch) {
   return {
     resetScore: () => dispatch(resetScore()),
-    answeredQuestion: (answerWasCorrect) => dispatch(answeredQuestion(answerWasCorrect)),
+    recordAnswer: (answerWasCorrect) => dispatch(recordAnswer(answerWasCorrect)),
   };
 }
 

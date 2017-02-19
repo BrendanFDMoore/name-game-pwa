@@ -9,17 +9,17 @@ export class Question extends Component {
       question,
       answers,
       answerHandler,
-      shouldShowName = false,
+      hasAnswered = false,
     } = this.props;
 
-    const answerElements = answers.map((a, index) => (
+    const answerElements = (!hasAnswered) && answers.map((a, index) => (
       <Answer key={index} label={a.text} isCorrect={a.correct} answerHandler={answerHandler} />
     ));
 
     return (
       <div className="Question">
         Who is this?
-        <Person name={question.name} imageFilename={question.image} group={question.group} shouldShowName={shouldShowName} />
+        <Person name={question.name} imageFilename={question.image} group={question.group} shouldShowName={hasAnswered} />
         { answerElements }
       </div>
     );
@@ -30,7 +30,7 @@ Question.PropTypes = {
   question: PropTypes.object.isRequired,
   answers: PropTypes.array.isRequired,
   answerHandler: PropTypes.array.isRequired,
-  shouldShowName: PropTypes.bool,
+  hasAnswered: PropTypes.bool,
 };
 
 export default Question;
