@@ -1,13 +1,13 @@
 export const GENDERS = {
-  MALE: 'gender/male',
-  FEMALE: 'gender/female',
-  UNKNOWN: 'gender/unknown',
+  MALE: 'Male',
+  FEMALE: 'Female',
+  UNKNOWN: 'Unknown',
 };
 
 export const GROUPS = {
-  HEROES: 'groups/heroes',
-  VILLAINS: 'groups/villains',
-  SIDEKICKS: 'groups/sidekicks',
+  HEROES: 'Heroes',
+  VILLAINS: 'Villains',
+  SIDEKICKS: 'Sidekicks',
 };
 
 export const PROFILES = [

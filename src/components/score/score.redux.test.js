@@ -1,6 +1,6 @@
 import {
   ACTION_TYPES,
-  answeredQuestion,
+  recordAnswer,
   resetScore,
   selectQuestionsAnswered,
   selectCorrectlyAnswered,
@@ -10,7 +10,7 @@ import {
 const {
   INITIAL_STATE,
   resetScoreState,
-  recordAnswer,
+  recordAnswerReducer,
 } = TEST_INTERNALS;
 
 // TODO: Get `rewire` working - resolve "unable to find module" error
@@ -28,19 +28,19 @@ describe('Score redux suite', () => {
       });
     });
 
-    describe('answeredQuestion', () => {
+    describe('recordAnswer', () => {
       it('creates a correct answer action', () => {
-        expect(answeredQuestion(true))
+        expect(recordAnswer(true))
         .toEqual({
-          type: ACTION_TYPES.ANSWERED_QUESTION,
+          type: ACTION_TYPES.RECORD_ANSWER,
           payload: { answerWasCorrect: true }
         });
       });
 
       it('creates an incorrect answer action', () => {
-        expect(answeredQuestion(false))
+        expect(recordAnswer(false))
         .toEqual({
-          type: ACTION_TYPES.ANSWERED_QUESTION,
+          type: ACTION_TYPES.RECORD_ANSWER,
           payload: { answerWasCorrect: false }
         });
       });
@@ -49,8 +49,8 @@ describe('Score redux suite', () => {
 
   describe('reducers', () => {
     const mockScoreState = {
-      questionsAnswered: 7,
-      correctlyAnswered: 3,
+      answered: 7,
+      correct: 3,
     };
 
     describe('resetScoreState', () => {
@@ -70,25 +70,25 @@ describe('Score redux suite', () => {
       });
     });
 
-    describe('recordAnswer', () => {
+    describe('recordAnswerReducer', () => {
       it('captures a correct answer correctly', () => {
-        expect(recordAnswer(mockScoreState, answeredQuestion(true)))
+        expect(recordAnswerReducer(mockScoreState, recordAnswer(true)))
         .toEqual({
-          questionsAnswered: mockScoreState.questionsAnswered + 1,
-          correctlyAnswered: mockScoreState.correctlyAnswered + 1,
+          answered: mockScoreState.answered + 1,
+          correct: mockScoreState.correct + 1,
         });
       });
 
       it('captures an incorrect answer correctly', () => {
-        expect(recordAnswer(mockScoreState, answeredQuestion(false)))
+        expect(recordAnswerReducer(mockScoreState, recordAnswer(false)))
         .toEqual({
-          questionsAnswered: mockScoreState.questionsAnswered + 1,
-          correctlyAnswered: mockScoreState.correctlyAnswered,
+          answered: mockScoreState.answered + 1,
+          correct: mockScoreState.correct,
         });
       });
 
       it('ignores other actions', () => {
-        expect(recordAnswer(mockScoreState, { type: 'SOME_RANDOM_TYPE' }))
+        expect(recordAnswerReducer(mockScoreState, { type: 'SOME_RANDOM_TYPE' }))
         .toEqual(mockScoreState);
       });
     });
@@ -96,8 +96,8 @@ describe('Score redux suite', () => {
   describe('selectors', () => {
     const mockState = {
       score: {
-        questionsAnswered: 7,
-        correctlyAnswered: 3,
+        answered: 7,
+        correct: 3,
       },
     };
 

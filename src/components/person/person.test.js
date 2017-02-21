@@ -6,7 +6,7 @@ describe('Person component', () =>{
   it('renders without crashing', () => {
     const personProps = {
       name: 'some name',
-      image: 'img.jpg',
+      imageFilename: 'tonystark1.jpg',
       group: 'some group',
       shouldShowName: false,
     };

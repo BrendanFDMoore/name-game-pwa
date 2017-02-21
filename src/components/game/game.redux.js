@@ -3,16 +3,20 @@ import reducerPipe from 'reducer-pipe';
 import { createSelector } from 'reselect';
 
 // ACTION TYPES
+const CLICKED_PLAY = 'GAME/CLICKED_PLAY';
 const RESET = 'GAME/RESET';
 const QUESTIONS_READY = 'GAME/QUESTIONS_READY';
+const ANSWERED_QUESTION = 'GAME/ANSWERED_QUESTION';
 const NEXT_QUESTION = 'GAME/NEXT_QUESTION';
 const BEGIN = 'GAME/BEGIN';
 const END = 'GAME/FINISH';
 export const ACTION_TYPES = {
+  CLICKED_PLAY,
   BEGIN,
   NEXT_QUESTION,
   END,
   QUESTIONS_READY,
+  ANSWERED_QUESTION,
   RESET,
 };
 
@@ -24,6 +28,21 @@ export const questionsReady = (questions, answers) => {
       questions,
       answers,
     }
+  }
+};
+
+export const answeredQuestion = (isCorrect) => {
+  return {
+    type: ANSWERED_QUESTION,
+    payload: { 
+      isCorrect,
+    }
+  }
+};
+
+export const clickedPlay = () => {
+  return {
+    type: CLICKED_PLAY,
   }
 };
 
@@ -57,7 +76,6 @@ const INITIAL_STATE = {
   answers: [],
   currentQuestion: null,
   hasAnsweredCurrentQuestion: false,
-  hasPlayed: false,
   isPlaying: false,
   playCount: 0,
 };
@@ -76,7 +94,6 @@ const beginReducer = (state = INITIAL_STATE, action) => {
       currentQuestion: 0,
       hasAnsweredCurrentQuestion: false,
       isPlaying: true,
-      hasPlayed: true,
       playCount: state.playCount + 1,
     });
   }
@@ -88,8 +105,7 @@ const endReducer = (state = INITIAL_STATE, action) => {
   if (action.type === END) {
     const answerWasCorrect = pathOr(false, ['payload', 'answerWasCorrect'], action);
     return Object.assign({}, state, {
-      questionsAnswered: state.questionsAnswered + 1,
-      correctlyAnswered: state.correctlyAnswered + (1 * answerWasCorrect),
+      isPlaying: false,
     });
   }
 
@@ -119,19 +135,33 @@ const questionsReadyReducer = (state = INITIAL_STATE, action) => {
   return state;
 };
 
+const answeredQuestionReducer = (state = INITIAL_STATE, action) => {
+  if (action.type === ANSWERED_QUESTION) {
+    return Object.assign({}, state, {
+      hasAnsweredCurrentQuestion: true,
+    });
+  }
+
+  return state;
+};
+
 // COMBINED REDUCER
 const gameReducer = reducerPipe([
   resetReducer,
-  beginReducer,
-  endReducer,
-  nextQuestionReducer,
   questionsReadyReducer,
+  beginReducer,
+  answeredQuestionReducer,
+  nextQuestionReducer,
+  endReducer,
 ]);
 
 // SELECTORS
-const selectCurrentQuestionIndex = pathOr(0, ['game', 'currentQuestion']);
+export const selectCurrentQuestionIndex = pathOr(0, ['game', 'currentQuestion']);
 const selectQuestions = pathOr([], ['game', 'questions']);
 const selectAnswers = pathOr([], ['game', 'answers']);
+export const selectHasAnsweredCurrentQuestion = pathOr(false, ['game', 'hasAnsweredCurrentQuestion']);
+export const selectIsPlaying = pathOr(false, ['game', 'isPlaying']);
+export const selectPlayCount = pathOr(0, ['game', 'playCount']);
 
 export const selectQuestionNumber = createSelector(
   selectCurrentQuestionIndex,
@@ -155,6 +185,10 @@ export const selectCurrentAnswers = createSelector(
   (index, answers) => answers[index]
 );
 
+export const selectHasPlayed = createSelector(
+  selectPlayCount,
+  playCount => playCount > 0
+);
 
 // This export exists to expose otherwise non-exported objects for testing
 // as a substitute for `rewire` which threw an error I could not resolve.
