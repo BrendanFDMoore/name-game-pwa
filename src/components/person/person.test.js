@@ -1,5 +1,7 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactTestUtils from 'react-addons-test-utils'
+const renderer = ReactTestUtils.createRenderer();
+
 import { Person } from './index';
 
 describe('Person component', () =>{
@@ -12,6 +14,6 @@ describe('Person component', () =>{
     };
 
     const div = document.createElement('div');
-    ReactDOM.render(<Person {...personProps} />, div);
+    renderer.render(<Person {...personProps} />, div);
   });
 });
