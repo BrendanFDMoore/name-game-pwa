@@ -42,14 +42,13 @@ export function* generateQuestions() {
   const questions = PROFILES.map(
     p => R.assoc('rng', Math.random(), p)
   )
-  .sort((a, b) => a.rng > b.rng)
+  .sort((a, b) => a.rng - b.rng)
   .map(p => {
     const newProfile = {
       name: p.name,
       group: p.group,
       image: p.images[Math.floor(Math.random() * p.images.length)],
     };
-    console.log(newProfile);
     return newProfile;
   });
 
@@ -61,7 +60,7 @@ export function* generateQuestions() {
       .map(
         p => R.assoc('rng', Math.random(), p)
       )
-      .sort((a, b) => a.rng > b.rng)
+      .sort((a, b) => a.rng - b.rng)
       .filter((a, idx) => idx <= 2)
       .map(c => answersList.push({ text: c.name, correct: false}));
 
@@ -69,7 +68,7 @@ export function* generateQuestions() {
       .map(
         p => R.assoc('rng', Math.random(), p)
       )
-      .sort((a, b) => a.rng > b.rng)
+      .sort((a, b) => a.rng - b.rng)
       return shuffledAnswers;
     }
   );
