@@ -1,5 +1,10 @@
 import React, { Component, PropTypes } from 'react';
+import RaisedButton from 'material-ui/RaisedButton';
 
+const answerButtonStyle = {
+  width: '66%',
+  margin: 5,
+};
 export class Answer extends Component {
   render() {
     const {
@@ -9,7 +14,7 @@ export class Answer extends Component {
     } = this.props;
     return (
       <div className="Answer" >
-        <input type='button' onClick={() => answerHandler(isCorrect)} value={ label } />
+        <RaisedButton label={label} secondary={true} style={answerButtonStyle} onTouchTap={() => answerHandler(isCorrect)} />
       </div>
     );
   }
