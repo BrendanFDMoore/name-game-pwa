@@ -15,16 +15,30 @@ export class Person extends Component {
     const displayGroupLabel = group && 'Group: ';
     const displayGroupName = group && shouldShowName ? group : '???';
 
+    const overlayTitle = ( shouldShowName &&
+      <CardTitle
+        title={`Name: ${displayName}`}
+        subtitle={`${displayGroupLabel}${displayGroupName}`} />
+    );
+
+    const cardMediaOverlay = {};
+    if (shouldShowName) {
+      cardMediaOverlay.overlay = (<CardTitle
+        title={`Name: ${displayName}`}
+        subtitle={`${displayGroupLabel}${displayGroupName}`} />)
+    }
+
     const headshotStyle = {
-      minHeight: '30vh',
+      minHeight: '20vh',
       maxHeight: '50vh',
       width: 'auto',
-      minWidth: '30vh',
-      maxWidth: '90vh',
+      minWidth: '20vw',
+      maxWidth: '90vw',
     };
 
     const paperStyle = {
-      maxWidth: '90vh',
+      margin: '5px',
+      maxWidth: '90vw',
       maxHeight: '50vh',      
       textAlign: 'center',
       display: 'inline-block',
@@ -34,7 +48,7 @@ export class Person extends Component {
         <Paper style={paperStyle} zDepth={2} >
           <Card>
             <CardMedia style={headshotStyle}
-              overlay={<CardTitle title={`Name: ${displayName}`} subtitle={`${displayGroupLabel}${displayGroupName}`} />}
+              {...cardMediaOverlay}
             >
               <img alt='headshot' style={headshotStyle} src={require(`../../images/${imageFilename}`)} />
             </CardMedia>
