@@ -18,6 +18,7 @@ export class Score extends Component {
       display: 'inline-block',
       margin: 10,
       backgroundColor: blueGrey200,
+      minWidth: '200px',
       width: '30vw',
     };
     const pct = questionsAnswered > 0 ? Math.round(correctlyAnswered*100.0/questionsAnswered) : '-';
@@ -25,7 +26,7 @@ export class Score extends Component {
       <div className="Score">
         <div className="Score-values">
           <Chip style={chipStyle} labelStyle={{fontWeight: 600}}>
-            {`Score: ${correctlyAnswered} / ${questionsAnswered} (${pct} %)`}
+            {`Score: ${correctlyAnswered} / ${questionsAnswered} ( ${pct}% )`}
           </Chip>
         </div>
       </div>
