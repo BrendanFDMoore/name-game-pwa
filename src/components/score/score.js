@@ -5,6 +5,8 @@ import {
   selectCorrectlyAnswered,
 } from './score.redux';
 import './score.css';
+import Chip from 'material-ui/Chip';
+import {blueGrey200} from 'material-ui/styles/colors';
 
 export class Score extends Component {
   render() {
@@ -12,14 +14,19 @@ export class Score extends Component {
       questionsAnswered,
       correctlyAnswered
     } = this.props;
+    const chipStyle = {
+      display: 'inline-block',
+      margin: 10,
+      backgroundColor: blueGrey200,
+      width: '30vw',
+    };
     const pct = questionsAnswered > 0 ? Math.round(correctlyAnswered*100.0/questionsAnswered) : '-';
     return (
       <div className="Score">
-        <div className="Score-label">
-          Score:
-        </div>
         <div className="Score-values">
-          {`${correctlyAnswered} / ${questionsAnswered} (${pct} %)`}
+          <Chip style={chipStyle} labelStyle={{fontWeight: 600}}>
+            {`Score: ${correctlyAnswered} / ${questionsAnswered} (${pct} %)`}
+          </Chip>
         </div>
       </div>
     );
