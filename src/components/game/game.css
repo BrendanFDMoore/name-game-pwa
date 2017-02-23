@@ -1,6 +1,7 @@
 .Game-logo {
   animation: Game-logo-spin infinite 10s linear;
-  height: 80px;
+  height: 100px;
+  width: 100px;
 }
 
 .Game-header {

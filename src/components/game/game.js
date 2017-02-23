@@ -1,5 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import AppBar from 'material-ui/AppBar';
+import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card'
+import RaisedButton from 'material-ui/RaisedButton';
+import Avatar from 'material-ui/Avatar';
 
 import './game.css';
 import face from '../../face.png';
@@ -32,18 +36,6 @@ export class Game extends Component {
       clickedPlay,
     } = this.props;
 
-    const preamble = (
-      <div>
-        <div className="Game-header">
-          <img src={face} className="Game-logo" alt="logo" />
-          <h2>The Name Game</h2>
-          <p>A game to help you put names to faces.</p>
-        </div>
-        <p className="Game-intro">
-          Try to name the people shown in the picture.
-        </p>
-      </div>
-    );
 
     const activeGame = (
       <div>
@@ -67,28 +59,52 @@ export class Game extends Component {
         </div>
       </div>
     );
+
+    const paperStyle = {
+      height: 150,
+      width: 200,
+      margin: 20,
+      textAlign: 'center',
+      display: 'inline-block',
+    };
+    const avatarStyle = {margin: 10, padding: 10, animation: "Game-logo-spin infinite 10s linear"};
     const inactiveGame = (
-      <div>
-        {
-          hasPlayed &&
-          <div>
-            {'Game Over'}
+      <Card>
+        <CardTitle subtitle="A game to help you put names to faces" />
+        <CardText>
+          <Avatar src={face} size={100} style={avatarStyle} />
+          
+          <div className="Game-intro">
+            {
+              hasPlayed ?
+              <div>
+                <div>
+                  {'Game Over'}
+                </div>
+                <div>
+                  <Score />
+                </div>
+              </div>
+             : <div>Try to name the person shown in each picture.</div>
+            }
           </div>
-        }
-        <div>
-          {`Ready to play${playAgain}?`}
-        </div>
-        <div>
-          <input type='button' onClick={clickedPlay} value={`Play${playAgain}`} />
-        </div>
-        <div>
-          { hasPlayed && lastScore }
-        </div>
-      </div>
+          <div className="Game-intro">
+            {`Ready to play${playAgain}?`}
+          </div>
+        </CardText>
+        <CardActions>
+          <RaisedButton label={`Play${playAgain}`} primary={true} onTouchTap={clickedPlay} />
+        </CardActions>
+      </Card>
     );
+
     return (
       <div className="Game">
-        { preamble }
+        <AppBar
+          title="The Name Game"
+          iconClassNameLeft="none"
+          iconClassNameRight="none"
+        />
         { isPlaying ? activeGame : inactiveGame }
       </div>
     );
