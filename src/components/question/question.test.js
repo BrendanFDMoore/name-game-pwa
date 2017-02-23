@@ -1,5 +1,7 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactTestUtils from 'react-addons-test-utils'
+const renderer = ReactTestUtils.createRenderer();
+
 import { Question } from './index';
 
 describe('Question component', () =>{
@@ -12,6 +14,6 @@ describe('Question component', () =>{
     };
 
     const div = document.createElement('div');
-    ReactDOM.render(<Question {...questionProps} />, div);
+    renderer.render(<Question {...questionProps} />, div);
   });
 });
