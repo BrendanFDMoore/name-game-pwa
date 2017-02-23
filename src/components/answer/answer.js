@@ -28,7 +28,11 @@ export class Answer extends Component {
 
     const answerButtonStyle = {
       width: '66%',
-      margin: 5,
+      margin: 3,
+    };
+
+    const buttonLabelStyle = {
+      fontSize: '3vw',
     };
     
     let disabledBackgroundColor = grey300;
@@ -40,7 +44,14 @@ export class Answer extends Component {
 
     return (
       <div className="Answer" >
-        <RaisedButton label={label} secondary={true} disabled={disabled} style={answerButtonStyle} disabledBackgroundColor={disabledBackgroundColor} onTouchTap={this.handleClick.bind(this)} />
+        <RaisedButton
+          secondary={true}
+          style={answerButtonStyle}
+          label={label}
+          labelStyle={buttonLabelStyle}
+          disabled={disabled}
+          disabledBackgroundColor={disabledBackgroundColor}
+          onTouchTap={this.handleClick.bind(this)} />
       </div>
     );
   }
