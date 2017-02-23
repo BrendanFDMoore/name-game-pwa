@@ -83,7 +83,7 @@ function* processAnswer(action) {
   const numberOfQuestions = yield select(selectNumberOfQuestions);
   
   // leave a short time for player to review revealed answer
-  yield call(delay, 1000);
+  yield call(delay, 1750);
 
   // Are there any more questions to go to?
   if (currentQuestionIndex + 1 < numberOfQuestions) {
