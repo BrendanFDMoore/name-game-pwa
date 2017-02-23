@@ -34,6 +34,12 @@ export class Answer extends Component {
     const buttonLabelStyle = {
       fontSize: '3vw',
     };
+
+    // Crude check against window size to set fixed font for large breakpoints
+    // Note: this will not adjust dynamically with screen resize.
+    if (window && window.matchMedia && window.matchMedia("(min-width: 800px)").matches) {
+      buttonLabelStyle.fontSize = '24px';
+    }
     
     let disabledBackgroundColor = grey300;
     if (isCorrect) {
