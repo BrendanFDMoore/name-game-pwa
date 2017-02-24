@@ -1,5 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import AppBar from 'material-ui/AppBar';
+import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card'
+import RaisedButton from 'material-ui/RaisedButton';
+import Avatar from 'material-ui/Avatar';
+import Paper from 'material-ui/Paper';
 
 import './game.css';
 import face from '../../face.png';
@@ -32,21 +37,17 @@ export class Game extends Component {
       clickedPlay,
     } = this.props;
 
-    const preamble = (
-      <div>
-        <div className="Game-header">
-          <img src={face} className="Game-logo" alt="logo" />
-          <h2>The Name Game</h2>
-          <p>A game to help you put names to faces.</p>
-        </div>
-        <p className="Game-intro">
-          Try to name the people shown in the picture.
-        </p>
-      </div>
-    );
+    const gameStyle = {
+      height: '90vh',
+      maxHeight: '90vh',
+      width: '100vw',
+      maxWidth: '100vw',
+      display: 'flex',
+      flexDirection:'column',
+    };
 
     const activeGame = (
-      <div>
+      <div style={gameStyle}>
         <div>
           <Question question={question} hasAnswered={hasAnsweredCurrentQuestion} answers={answers} answerHandler={answeredQuestion} />
         </div>
@@ -57,39 +58,74 @@ export class Game extends Component {
     );
 
     const playAgain = hasPlayed ? ' again' : '';
-    const lastScore = (
-      <div>
-        <div>
-          Previous Score:
-        </div>
-        <div>
-          <Score />
-        </div>
-      </div>
-    );
+
+    const avatarStyle = {margin: 10, padding: 10, animation: "Game-logo-spin infinite 10s linear"};
+    const bodyStyle = {
+      maxHeight: '90vh',
+      flex: 1,
+      display:'flex',
+      flexDirection:'column',
+      justifyContent: 'center',
+      alignItems: 'center'
+    };
     const inactiveGame = (
-      <div>
-        {
-          hasPlayed &&
-          <div>
-            {'Game Over'}
+      <Card containerStyle={bodyStyle} style={bodyStyle}>
+        <CardTitle subtitle="A game to help you put names to faces" />
+        <CardText style={bodyStyle}>
+          <Avatar src={face} size={100} style={avatarStyle} />
+          
+          <div className="Game-intro">
+            {
+              hasPlayed ?
+              <div>
+                <div>
+                  {'Game Over'}
+                </div>
+                <div>
+                  <Score />
+                </div>
+              </div>
+             : <div>Try to name the person shown in each picture.</div>
+            }
           </div>
-        }
-        <div>
-          {`Ready to play${playAgain}?`}
-        </div>
-        <div>
-          <input type='button' onClick={clickedPlay} value={`Play${playAgain}`} />
-        </div>
-        <div>
-          { hasPlayed && lastScore }
-        </div>
-      </div>
+          <div className="Game-intro">
+            {`Ready to play${playAgain}?`}
+          </div>
+        </CardText>
+        <CardActions style={bodyStyle}>
+          <RaisedButton label={`Play${playAgain}`} primary={true} onTouchTap={clickedPlay} />
+        </CardActions>
+      </Card>
     );
+
+    const paperShellStyle = {
+      height: '100vh',
+      maxHeight: '100vh',
+      width: '100vw',
+      maxWidth: '100vw',
+      display: 'flex',
+      flexDirection:'column',
+    };
+
+    const appBarStyle = {
+      height: '10vh',
+    };
+    const appBarTitleStyle = {
+      lineHeight: '10vh',
+      fontSize: '5vh',
+    };
     return (
       <div className="Game">
-        { preamble }
-        { isPlaying ? activeGame : inactiveGame }
+        <Paper style={paperShellStyle} zDepth={0} >
+          <AppBar
+            style={appBarStyle}
+            titleStyle={appBarTitleStyle}
+            title="The Name Game"
+            iconClassNameLeft="none"
+            iconClassNameRight="none"
+          />
+          { isPlaying ? activeGame : inactiveGame }
+        </Paper>
       </div>
     );
   }

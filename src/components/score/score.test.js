@@ -1,5 +1,7 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactTestUtils from 'react-addons-test-utils'
+const renderer = ReactTestUtils.createRenderer();
+
 import {Score} from './index';
 
 describe('Score component', () =>{
@@ -12,6 +14,6 @@ describe('Score component', () =>{
     };
 
     const div = document.createElement('div');
-    ReactDOM.render(<Score {...scoreProps} />, div);
+    renderer.render(<Score {...scoreProps} />, div);
   });
 });
