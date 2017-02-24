@@ -4,6 +4,7 @@ import AppBar from 'material-ui/AppBar';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton';
 import Avatar from 'material-ui/Avatar';
+import Paper from 'material-ui/Paper';
 
 import './game.css';
 import face from '../../face.png';
@@ -60,18 +61,18 @@ export class Game extends Component {
       </div>
     );
 
-    const paperStyle = {
-      height: 150,
-      width: 200,
-      margin: 20,
-      textAlign: 'center',
-      display: 'inline-block',
-    };
     const avatarStyle = {margin: 10, padding: 10, animation: "Game-logo-spin infinite 10s linear"};
+    const bodyStyle = {
+      flex: 1,
+      display:'flex',
+      flexDirection:'column',
+      justifyContent: 'center',
+      alignItems: 'center'
+    };
     const inactiveGame = (
-      <Card>
+      <Card containerStyle={bodyStyle} style={bodyStyle}>
         <CardTitle subtitle="A game to help you put names to faces" />
-        <CardText>
+        <CardText style={bodyStyle}>
           <Avatar src={face} size={100} style={avatarStyle} />
           
           <div className="Game-intro">
@@ -98,14 +99,24 @@ export class Game extends Component {
       </Card>
     );
 
+    const paperShellStyle = {
+      height: '100vh',
+      maxHeight: '100vh',
+      width: '100vw',
+      maxWidth: '100vw',
+      display: 'flex',
+      flexDirection:'column',
+    };
     return (
       <div className="Game">
-        <AppBar
-          title="The Name Game"
-          iconClassNameLeft="none"
-          iconClassNameRight="none"
-        />
-        { isPlaying ? activeGame : inactiveGame }
+        <Paper style={paperShellStyle} zDepth={0} >
+          <AppBar
+            title="The Name Game"
+            iconClassNameLeft="none"
+            iconClassNameRight="none"
+          />
+          { isPlaying ? activeGame : inactiveGame }
+        </Paper>
       </div>
     );
   }

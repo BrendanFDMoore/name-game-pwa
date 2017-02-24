@@ -30,16 +30,16 @@ export class Person extends Component {
 
     const headshotStyle = {
       minHeight: '20vh',
-      maxHeight: '50vh',
+      maxHeight: '45vh',
       width: 'auto',
       minWidth: '20vw',
-      maxWidth: '90vw',
+      maxWidth: '80vw',
     };
 
     const paperStyle = {
       margin: '5px',
-      maxWidth: '90vw',
-      maxHeight: '50vh',      
+      maxWidth: '80vw',
+      maxHeight: '45vh',      
       textAlign: 'center',
       display: 'inline-block',
     };
