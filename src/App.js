@@ -16,10 +16,6 @@ const muiTheme = getMuiTheme({
     accent2Color: purple600,
     // accent3Color: grey500,
   },
-  appBar: {
-    height: 40,
-    margin: '5px'
-  },
 });
 
 

@@ -20,17 +20,24 @@ export class Person extends Component {
         title={`Name: ${displayName}`}
         subtitle={`${displayGroupLabel}${displayGroupName}`} />
     );
-
+    const overlayTitleStyle = {
+      fontSize: '3.5vw',
+      lineHeight:'3.5vw',
+      maxHeight: '5vh',
+      padding:'1px',
+    };
     const cardMediaOverlay = {};
     if (shouldShowName) {
       cardMediaOverlay.overlay = (<CardTitle
+        titleStyle={overlayTitleStyle}
+        subtitleStyle={overlayTitleStyle}
         title={`Name: ${displayName}`}
         subtitle={`${displayGroupLabel}${displayGroupName}`} />)
     }
 
     const headshotStyle = {
       minHeight: '20vh',
-      maxHeight: '45vh',
+      maxHeight: '40vh',
       width: 'auto',
       minWidth: '20vw',
       maxWidth: '80vw',
@@ -47,7 +54,8 @@ export class Person extends Component {
       <div className="Person">
         <Paper style={paperStyle} zDepth={2} >
           <Card>
-            <CardMedia style={headshotStyle}
+            <CardMedia
+              style={headshotStyle}
               {...cardMediaOverlay}
             >
               <img alt='headshot' style={headshotStyle} src={require(`../../images/${imageFilename}`)} />

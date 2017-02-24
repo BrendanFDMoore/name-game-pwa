@@ -37,9 +37,17 @@ export class Game extends Component {
       clickedPlay,
     } = this.props;
 
+    const gameStyle = {
+      height: '90vh',
+      maxHeight: '90vh',
+      width: '100vw',
+      maxWidth: '100vw',
+      display: 'flex',
+      flexDirection:'column',
+    };
 
     const activeGame = (
-      <div>
+      <div style={gameStyle}>
         <div>
           <Question question={question} hasAnswered={hasAnsweredCurrentQuestion} answers={answers} answerHandler={answeredQuestion} />
         </div>
@@ -50,19 +58,10 @@ export class Game extends Component {
     );
 
     const playAgain = hasPlayed ? ' again' : '';
-    const lastScore = (
-      <div>
-        <div>
-          Previous Score:
-        </div>
-        <div>
-          <Score />
-        </div>
-      </div>
-    );
 
     const avatarStyle = {margin: 10, padding: 10, animation: "Game-logo-spin infinite 10s linear"};
     const bodyStyle = {
+      maxHeight: '90vh',
       flex: 1,
       display:'flex',
       flexDirection:'column',
@@ -93,7 +92,7 @@ export class Game extends Component {
             {`Ready to play${playAgain}?`}
           </div>
         </CardText>
-        <CardActions>
+        <CardActions style={bodyStyle}>
           <RaisedButton label={`Play${playAgain}`} primary={true} onTouchTap={clickedPlay} />
         </CardActions>
       </Card>
@@ -107,10 +106,20 @@ export class Game extends Component {
       display: 'flex',
       flexDirection:'column',
     };
+
+    const appBarStyle = {
+      height: '10vh',
+    };
+    const appBarTitleStyle = {
+      lineHeight: '10vh',
+      fontSize: '5vh',
+    };
     return (
       <div className="Game">
         <Paper style={paperShellStyle} zDepth={0} >
           <AppBar
+            style={appBarStyle}
+            titleStyle={appBarTitleStyle}
             title="The Name Game"
             iconClassNameLeft="none"
             iconClassNameRight="none"
