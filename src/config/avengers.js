@@ -78,4 +78,23 @@ export const PROFILES = [
       'carter2.jpg',
     ],
   },
+  {
+    name: 'Jane Foster',
+    group: GROUPS.SIDEKICKS,
+    gender: GENDERS.FEMALE,
+    images: [
+      'janefoster1.jpg',
+      'janefoster2.jpg',
+    ],
+  },
+  {
+    name: 'Scarlet Witch',
+    group: GROUPS.HEROES,
+    gender: GENDERS.FEMALE,
+    images: [
+      'scarletwitch1.jpg',
+      'scarletwitch2.jpg',
+      'scarletwitch3.jpg',
+    ],
+  },
 ];
