@@ -5,6 +5,8 @@ import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton';
 import Avatar from 'material-ui/Avatar';
 import Drawer from 'material-ui/Drawer';
+import IconButton from 'material-ui/IconButton';
+import NavigationClose from 'material-ui/svg-icons/navigation/close';
 import Paper from 'material-ui/Paper';
 import { red300 } from 'material-ui/styles/colors';
 
@@ -128,7 +130,6 @@ export class Game extends Component {
     const reviewList = (
       <div>
         <Paper style={reviewListPaperShellStyle} zDepth={0} >      
-          <div>Tap/click outside drawer to close.</div>  
         { 
           showIncorrect ? incorrectToReview.map((r, index) => {
             return <Person key={index} overrideMaxWidth={'360px'} name={r.name} imageFilename={r.image} group={r.group} shouldShowName={true}/>
@@ -171,7 +172,7 @@ export class Game extends Component {
               style={appBarDrawerStyle}
               title="Incorrect Responses"
               titleStyle={appBarDrawerTitleStyle}
-              iconClassNameLeft="none"
+              iconElementLeft={<IconButton onTouchTap={toggleShowIncorrect} ><NavigationClose /></IconButton>}
               iconClassNameRight="none"
             />
             {reviewList}
