@@ -9,20 +9,18 @@ export class Person extends Component {
       imageFilename,
       group,
       shouldShowName,
+      overrideMaxWidth,
     } = this.props;
 
     const displayName = shouldShowName ? name : '???'
     const displayGroupLabel = group && 'Group: ';
     const displayGroupName = group && shouldShowName ? group : '???';
 
-    const overlayTitle = ( shouldShowName &&
-      <CardTitle
-        title={`Name: ${displayName}`}
-        subtitle={`${displayGroupLabel}${displayGroupName}`} />
-    );
+    const maxWidth = overrideMaxWidth ? overrideMaxWidth : '80vw';
+
     const overlayTitleStyle = {
-      fontSize: '3.5vw',
-      lineHeight:'3.5vw',
+      fontSize: overrideMaxWidth ? '16px' : '3vw',
+      lineHeight: overrideMaxWidth ? '16px' : '3vw',
       maxHeight: '5vh',
       padding:'1px',
     };
@@ -40,12 +38,12 @@ export class Person extends Component {
       maxHeight: '40vh',
       width: 'auto',
       minWidth: '20vw',
-      maxWidth: '80vw',
+      maxWidth: maxWidth,
     };
 
     const paperStyle = {
       margin: '5px',
-      maxWidth: '80vw',
+      maxWidth: maxWidth,
       maxHeight: '45vh',      
       textAlign: 'center',
       display: 'inline-block',
@@ -72,6 +70,7 @@ Person.PropTypes = {
   imageFilename: PropTypes.string.isRequired,
   group: PropTypes.string,
   shouldShowName: PropTypes.bool.isRequired,
+  overrideMaxWidth: PropTypes.number
 };
 
 export default Person;

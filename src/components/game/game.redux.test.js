@@ -6,12 +6,15 @@ import {
   begin,
   end,
   reset,
+  toggleShowIncorrect,
   selectHasAnsweredCurrentQuestion,
   selectNumberOfQuestions,
   selectCurrentQuestionIndex,
   selectCurrentQuestion,
   selectCurrentAnswers,
   selectHasPlayed,
+  selectShowIncorrect,
+  selectIncorrectToReview,
 } from './game.redux';
 
 describe('Game redux suite', () => {
@@ -39,6 +42,15 @@ describe('Game redux suite', () => {
         expect(begin())
         .toEqual({
           type: ACTION_TYPES.BEGIN,
+        });
+      });
+    });
+
+    describe('toggleShowIncorrect', () => {
+      it('creates a game toggleShowIncorrect action', () => {
+        expect(toggleShowIncorrect())
+        .toEqual({
+          type: ACTION_TYPES.TOGGLE_SHOW_INCORRECT,
         });
       });
     });
@@ -100,6 +112,9 @@ describe('Game redux suite', () => {
         hasAnsweredCurrentQuestion: true,
         isPlaying: true,
         playCount: 3,
+        incorrectToReview: [{ text: 'A' },
+          { text: 'B' }],
+        showIncorrect: true,
       },
     };
 
@@ -166,6 +181,28 @@ describe('Game redux suite', () => {
       it('returns the correct value', () => {
         expect(selectHasPlayed(mockState))
         .toEqual(true);
+      });
+    });
+
+    describe('selectShowIncorrect', () => {
+      it('returns the correct default value', () => {
+        expect(selectShowIncorrect(null))
+        .toEqual(false);
+      });
+      it('returns the correct value', () => {
+        expect(selectShowIncorrect(mockState))
+        .toEqual(true);
+      });
+    });
+
+    describe('selectIncorrectToReview', () => {
+      it('returns the correct default value', () => {
+        expect(selectIncorrectToReview(null))
+        .toEqual([]);
+      });
+      it('returns the correct value', () => {
+        expect(selectIncorrectToReview(mockState))
+        .toEqual([{text: 'A'}, {text: 'B'}]);
       });
     });
   });

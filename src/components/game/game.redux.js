@@ -9,7 +9,8 @@ const QUESTIONS_READY = 'GAME/QUESTIONS_READY';
 const ANSWERED_QUESTION = 'GAME/ANSWERED_QUESTION';
 const NEXT_QUESTION = 'GAME/NEXT_QUESTION';
 const BEGIN = 'GAME/BEGIN';
-const END = 'GAME/FINISH';
+const END = 'GAME/END';
+const TOGGLE_SHOW_INCORRECT = 'GAME/TOGGLE_SHOW_INCORRECT';
 export const ACTION_TYPES = {
   CLICKED_PLAY,
   BEGIN,
@@ -18,6 +19,7 @@ export const ACTION_TYPES = {
   QUESTIONS_READY,
   ANSWERED_QUESTION,
   RESET,
+  TOGGLE_SHOW_INCORRECT,
 };
 
 // ACTION CREATORS
@@ -64,6 +66,12 @@ export const end = () => {
   }
 };
 
+export const toggleShowIncorrect = () => {
+  return {
+    type: TOGGLE_SHOW_INCORRECT,
+  }
+};
+
 export const reset = () => {
   return {
     type: RESET,
@@ -78,6 +86,8 @@ const INITIAL_STATE = {
   hasAnsweredCurrentQuestion: false,
   isPlaying: false,
   playCount: 0,
+  incorrectToReview: [],
+  showIncorrect: false,
 };
 
 // REDUCERS
@@ -95,6 +105,8 @@ const beginReducer = (state = INITIAL_STATE, action) => {
       hasAnsweredCurrentQuestion: false,
       isPlaying: true,
       playCount: state.playCount + 1,
+      incorrectToReview: [],
+      showIncorrect: false,
     });
   }
 
@@ -103,9 +115,18 @@ const beginReducer = (state = INITIAL_STATE, action) => {
 
 const endReducer = (state = INITIAL_STATE, action) => {
   if (action.type === END) {
-    const answerWasCorrect = pathOr(false, ['payload', 'answerWasCorrect'], action);
     return Object.assign({}, state, {
       isPlaying: false,
+    });
+  }
+
+  return state;
+};
+
+const toggleShowIncorrectReducer = (state = INITIAL_STATE, action) => {
+  if (action.type === TOGGLE_SHOW_INCORRECT) {
+    return Object.assign({}, state, {
+      showIncorrect: !(state.showIncorrect === true),
     });
   }
 
@@ -145,6 +166,25 @@ const answeredQuestionReducer = (state = INITIAL_STATE, action) => {
   return state;
 };
 
+// Build up an accumulation of profiles the player needs to review more
+const incorrectAnswerReducer = (state = INITIAL_STATE, action) => {
+  if (action.type === ANSWERED_QUESTION) {
+    console.log('incorrectAnswerReducer');
+    const { isCorrect } = action;
+    if (!isCorrect) {
+      return Object.assign({}, state, {
+        incorrectToReview: [
+          state.questions[state.currentQuestion],
+          ...state.incorrectToReview,
+        ],
+      });
+    }
+    return state;
+  }
+
+  return state;
+};
+
 // COMBINED REDUCER
 const gameReducer = reducerPipe([
   resetReducer,
@@ -153,6 +193,8 @@ const gameReducer = reducerPipe([
   answeredQuestionReducer,
   nextQuestionReducer,
   endReducer,
+  incorrectAnswerReducer,
+  toggleShowIncorrectReducer,
 ]);
 
 // SELECTORS
@@ -162,6 +204,8 @@ const selectAnswers = pathOr([], ['game', 'answers']);
 export const selectHasAnsweredCurrentQuestion = pathOr(false, ['game', 'hasAnsweredCurrentQuestion']);
 export const selectIsPlaying = pathOr(false, ['game', 'isPlaying']);
 export const selectPlayCount = pathOr(0, ['game', 'playCount']);
+export const selectIncorrectToReview = pathOr([], ['game', 'incorrectToReview']);
+export const selectShowIncorrect = pathOr(false, ['game', 'showIncorrect']);
 
 export const selectQuestionNumber = createSelector(
   selectCurrentQuestionIndex,
