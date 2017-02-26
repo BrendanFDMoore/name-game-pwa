@@ -15,6 +15,8 @@ import {
   selectHasPlayed,
   selectShowIncorrect,
   selectIncorrectToReview,
+  selectIsHardMode,
+  selectAllNames,
 } from './game.redux';
 
 describe('Game redux suite', () => {
@@ -97,10 +99,10 @@ describe('Game redux suite', () => {
     const mockState = {
       game: {
         questions: [
-          { text: 'A' },
-          { text: 'B' },
-          { text: 'C' },
-          { text: 'D' },
+          { name: 'A' },
+          { name: 'B' },
+          { name: 'C' },
+          { name: 'D' },
         ],
         answers: [
           [{text: 'A'}, {text: 'B'}, {text: 'C'}, {text: 'D'}],
@@ -112,9 +114,10 @@ describe('Game redux suite', () => {
         hasAnsweredCurrentQuestion: true,
         isPlaying: true,
         playCount: 3,
-        incorrectToReview: [{ text: 'A' },
-          { text: 'B' }],
+        incorrectToReview: [{ name: 'A' },
+          { name: 'B' }],
         showIncorrect: true,
+        isHardMode: true,
       },
     };
 
@@ -123,7 +126,7 @@ describe('Game redux suite', () => {
         expect(selectHasAnsweredCurrentQuestion(null))
         .toEqual(false);
       });
-      it('returns the correct value', () => {
+      it('returns the correct value from state when set', () => {
         expect(selectHasAnsweredCurrentQuestion(mockState))
         .toEqual(true);
       });
@@ -134,7 +137,7 @@ describe('Game redux suite', () => {
         expect(selectNumberOfQuestions(null))
         .toEqual(0);
       });
-      it('returns the correct value', () => {
+      it('returns the correct value from state when set', () => {
         expect(selectNumberOfQuestions(mockState))
         .toEqual(4);
       });
@@ -145,7 +148,7 @@ describe('Game redux suite', () => {
         expect(selectCurrentQuestionIndex(null))
         .toEqual(0);
       });
-      it('returns the correct value', () => {
+      it('returns the correct value from state when set', () => {
         expect(selectCurrentQuestionIndex(mockState))
         .toEqual(2);
       });
@@ -156,9 +159,9 @@ describe('Game redux suite', () => {
         expect(selectCurrentQuestion(null))
         .toEqual(undefined);
       });
-      it('returns the correct value', () => {
+      it('returns the correct value from state when set', () => {
         expect(selectCurrentQuestion(mockState))
-        .toEqual({ text: 'C' });
+        .toEqual({ name: 'C' });
       });
     });
     
@@ -167,7 +170,7 @@ describe('Game redux suite', () => {
         expect(selectCurrentAnswers(null))
         .toEqual(undefined);
       });
-      it('returns the correct value', () => {
+      it('returns the correct value from state when set', () => {
         expect(selectCurrentAnswers(mockState))
         .toEqual([{text: 'C'}, {text: 'D'}, {text: 'A'}, {text: 'B'}]);
       });
@@ -178,7 +181,7 @@ describe('Game redux suite', () => {
         expect(selectHasPlayed(null))
         .toEqual(false);
       });
-      it('returns the correct value', () => {
+      it('returns the correct value from state when set', () => {
         expect(selectHasPlayed(mockState))
         .toEqual(true);
       });
@@ -189,7 +192,7 @@ describe('Game redux suite', () => {
         expect(selectShowIncorrect(null))
         .toEqual(false);
       });
-      it('returns the correct value', () => {
+      it('returns the correct value from state when set', () => {
         expect(selectShowIncorrect(mockState))
         .toEqual(true);
       });
@@ -200,9 +203,31 @@ describe('Game redux suite', () => {
         expect(selectIncorrectToReview(null))
         .toEqual([]);
       });
-      it('returns the correct value', () => {
+      it('returns the correct value from state when set', () => {
         expect(selectIncorrectToReview(mockState))
-        .toEqual([{text: 'A'}, {text: 'B'}]);
+        .toEqual([{name: 'A'}, {name: 'B'}]);
+      });
+    });
+
+    describe('selectIsHardMode', () => {
+      it('returns the correct default value', () => {
+        expect(selectIsHardMode(null))
+        .toEqual(false);
+      });
+      it('returns the correct value from state when set', () => {
+        expect(selectIsHardMode(mockState))
+        .toEqual(true);
+      });
+    });
+
+    describe('selectAllNames', () => {
+      it('returns the correct default value', () => {
+        expect(selectAllNames(null))
+        .toEqual([]);
+      });
+      it('returns the correct value from state when set', () => {
+        expect(selectAllNames(mockState))
+        .toEqual(['A', 'B', 'C', 'D']);
       });
     });
   });

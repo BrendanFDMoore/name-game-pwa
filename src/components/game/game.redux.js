@@ -1,4 +1,4 @@
-import { pathOr } from 'ramda';
+import R from 'ramda';
 import reducerPipe from 'reducer-pipe';
 import { createSelector } from 'reselect';
 
@@ -11,6 +11,7 @@ const NEXT_QUESTION = 'GAME/NEXT_QUESTION';
 const BEGIN = 'GAME/BEGIN';
 const END = 'GAME/END';
 const TOGGLE_SHOW_INCORRECT = 'GAME/TOGGLE_SHOW_INCORRECT';
+const TOGGLE_HARD_MODE = 'GAME/TOGGLE_HARD_MODE';
 export const ACTION_TYPES = {
   CLICKED_PLAY,
   BEGIN,
@@ -20,6 +21,7 @@ export const ACTION_TYPES = {
   ANSWERED_QUESTION,
   RESET,
   TOGGLE_SHOW_INCORRECT,
+  TOGGLE_HARD_MODE,
 };
 
 // ACTION CREATORS
@@ -72,6 +74,12 @@ export const toggleShowIncorrect = () => {
   }
 };
 
+export const toggleHardMode = () => {
+  return {
+    type: TOGGLE_HARD_MODE,
+  }
+};
+
 export const reset = () => {
   return {
     type: RESET,
@@ -88,6 +96,7 @@ const INITIAL_STATE = {
   playCount: 0,
   incorrectToReview: [],
   showIncorrect: false,
+  isHardMode: false,
 };
 
 // REDUCERS
@@ -127,6 +136,16 @@ const toggleShowIncorrectReducer = (state = INITIAL_STATE, action) => {
   if (action.type === TOGGLE_SHOW_INCORRECT) {
     return Object.assign({}, state, {
       showIncorrect: !(state.showIncorrect === true),
+    });
+  }
+
+  return state;
+};
+
+const toggleHardModeReducer = (state = INITIAL_STATE, action) => {
+  if (action.type === TOGGLE_HARD_MODE) {
+    return Object.assign({}, state, {
+      isHardMode: !(state.isHardMode === true),
     });
   }
 
@@ -195,17 +214,19 @@ const gameReducer = reducerPipe([
   endReducer,
   incorrectAnswerReducer,
   toggleShowIncorrectReducer,
+  toggleHardModeReducer,
 ]);
 
 // SELECTORS
-export const selectCurrentQuestionIndex = pathOr(0, ['game', 'currentQuestion']);
-const selectQuestions = pathOr([], ['game', 'questions']);
-const selectAnswers = pathOr([], ['game', 'answers']);
-export const selectHasAnsweredCurrentQuestion = pathOr(false, ['game', 'hasAnsweredCurrentQuestion']);
-export const selectIsPlaying = pathOr(false, ['game', 'isPlaying']);
-export const selectPlayCount = pathOr(0, ['game', 'playCount']);
-export const selectIncorrectToReview = pathOr([], ['game', 'incorrectToReview']);
-export const selectShowIncorrect = pathOr(false, ['game', 'showIncorrect']);
+export const selectCurrentQuestionIndex = R.pathOr(0, ['game', 'currentQuestion']);
+const selectQuestions = R.pathOr([], ['game', 'questions']);
+const selectAnswers = R.pathOr([], ['game', 'answers']);
+export const selectHasAnsweredCurrentQuestion = R.pathOr(false, ['game', 'hasAnsweredCurrentQuestion']);
+export const selectIsPlaying = R.pathOr(false, ['game', 'isPlaying']);
+export const selectIsHardMode = R.pathOr(false, ['game', 'isHardMode']);
+export const selectPlayCount = R.pathOr(0, ['game', 'playCount']);
+export const selectIncorrectToReview = R.pathOr([], ['game', 'incorrectToReview']);
+export const selectShowIncorrect = R.pathOr(false, ['game', 'showIncorrect']);
 
 export const selectQuestionNumber = createSelector(
   selectCurrentQuestionIndex,
@@ -232,6 +253,11 @@ export const selectCurrentAnswers = createSelector(
 export const selectHasPlayed = createSelector(
   selectPlayCount,
   playCount => playCount > 0
+);
+
+export const selectAllNames = createSelector(
+  selectQuestions,
+  R.pluck('name')
 );
 
 // This export exists to expose otherwise non-exported objects for testing

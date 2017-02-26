@@ -8,6 +8,9 @@ import Drawer from 'material-ui/Drawer';
 import IconButton from 'material-ui/IconButton';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
 import Paper from 'material-ui/Paper';
+import IconMenu from 'material-ui/IconMenu';
+import MenuItem from 'material-ui/MenuItem';
+import MenuIcon from 'material-ui/svg-icons/navigation/menu';
 import { red300 } from 'material-ui/styles/colors';
 
 import './game.css';
@@ -20,6 +23,7 @@ import {
   answeredQuestion,
   clickedPlay,
   toggleShowIncorrect,
+  toggleHardMode,
   selectCurrentQuestion,
   selectCurrentAnswers,
   selectHasAnsweredCurrentQuestion,
@@ -27,6 +31,8 @@ import {
   selectHasPlayed,
   selectShowIncorrect,
   selectIncorrectToReview,
+  selectAllNames,
+  selectIsHardMode,
 } from './game.redux'
 import {
   selectQuestionsAnswered,
@@ -46,6 +52,9 @@ export class Game extends Component {
       incorrectToReview,
       showIncorrect,
       toggleShowIncorrect,
+      toggleHardMode,
+      allAnswers,
+      isHardMode = false,
     } = this.props;
 
     const gameStyle = {
@@ -60,7 +69,8 @@ export class Game extends Component {
     const activeGame = (
       <div style={gameStyle}>
         <div>
-          <Question question={question} hasAnswered={hasAnsweredCurrentQuestion} answers={answers} answerHandler={answeredQuestion} />
+          <Question question={question} hasAnswered={hasAnsweredCurrentQuestion} answers={answers} answerHandler={answeredQuestion}
+            allAnswers={allAnswers} useAutocomplete={isHardMode} />
         </div>
         <div>
           <Score />
@@ -164,6 +174,21 @@ export class Game extends Component {
       lineHeight: '10vh',
       fontSize: '3.5vh',
     };
+
+    const otherMode = isHardMode ? 'Easy' : 'Hard';
+    const appMenu = (
+      <IconMenu
+        iconButtonElement={
+          <IconButton iconStyle={ {color: 'white' } }><MenuIcon /></IconButton>
+        }
+        targetOrigin={{horizontal: 'left', vertical: 'top'}}
+        anchorOrigin={{horizontal: 'left', vertical: 'top'}}
+      >
+        <MenuItem primaryText={`Switch to ${otherMode} Mode`} onTouchTap={toggleHardMode} />
+        <MenuItem primaryText="About" />
+      </IconMenu>
+    );
+
     return (
       <div className="Game">
         <Paper style={paperShellStyle} zDepth={0} >
@@ -181,7 +206,8 @@ export class Game extends Component {
             style={appBarStyle}
             titleStyle={appBarTitleStyle}
             title="The Name Game"
-            iconClassNameLeft="none"
+            iconElementLeft={appMenu}
+            iconStyleLeft={{color:'white'}}
             iconClassNameRight="none"
           />
           { isPlaying ? activeGame : inactiveGame }
@@ -202,6 +228,8 @@ Game.PropTypes = {
   showIncorrect: PropTypes.bool,
   incorrectToReview: PropTypes.array,
   toggleShowIncorrect: PropTypes.func,
+  allAnswers: PropTypes.array,
+  isHardMode: PropTypes.bool,
 };
 
 function mapStateToProps(state, props) {
@@ -215,6 +243,8 @@ function mapStateToProps(state, props) {
     correctlyAnswered: selectCorrectlyAnswered(state),
     showIncorrect: selectShowIncorrect(state),
     incorrectToReview: selectIncorrectToReview(state),
+    allAnswers: selectAllNames(state),
+    isHardMode: selectIsHardMode(state),
   };
 }
 
@@ -228,6 +258,9 @@ function mapDispatchToProps(dispatch) {
     },
     toggleShowIncorrect: () => {
       dispatch(toggleShowIncorrect());
+    },
+    toggleHardMode: () => {
+      dispatch(toggleHardMode());
     },
   };
 }
