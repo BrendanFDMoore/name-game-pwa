@@ -170,7 +170,7 @@ const answeredQuestionReducer = (state = INITIAL_STATE, action) => {
 const incorrectAnswerReducer = (state = INITIAL_STATE, action) => {
   if (action.type === ANSWERED_QUESTION) {
     console.log('incorrectAnswerReducer');
-    const { isCorrect } = action;
+    const { payload: { isCorrect } } = action;
     if (!isCorrect) {
       return Object.assign({}, state, {
         incorrectToReview: [
