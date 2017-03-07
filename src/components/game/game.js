@@ -66,6 +66,17 @@ export class Game extends Component {
       flexDirection:'column',
     };
 
+    const incorrectButtonLabelStyle = {
+      fontSize: '3vw',
+    };
+    const reviewIncorrect = incorrectToReview && incorrectToReview.length > 0 &&
+      ( <div>
+          <RaisedButton
+          label={`Review ${incorrectToReview.length} Incorrect Response(s)`}
+          labelStyle={incorrectButtonLabelStyle}
+          onTouchTap={toggleShowIncorrect} /> 
+        </div> );
+
     const activeGame = (
       <div style={gameStyle}>
         <div>
@@ -75,11 +86,7 @@ export class Game extends Component {
         <div>
           <Score />
         </div>
-        { incorrectToReview && incorrectToReview.length > 0 &&
-            <div>
-              <RaisedButton label={`Review ${incorrectToReview.length} Incorrect Response(s)`} tertiary={true} onTouchTap={toggleShowIncorrect} />
-            </div>
-          }
+        { reviewIncorrect }
       </div>
     );
 
@@ -120,9 +127,7 @@ export class Game extends Component {
         </CardText>
         <CardActions style={bodyStyle}>
           <RaisedButton label={`Play${playAgain}`} primary={true} onTouchTap={clickedPlay} />
-          { incorrectToReview && incorrectToReview.length > 0 &&
-            <RaisedButton label={`Review ${incorrectToReview.length} Incorrect Response(s)`} tertiary={true} onTouchTap={toggleShowIncorrect} />
-          }
+          { reviewIncorrect }
         </CardActions>
       </Card>
     );

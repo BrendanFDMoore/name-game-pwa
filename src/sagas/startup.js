@@ -1,8 +1,4 @@
-import R from 'ramda';
-import { call, put, takeEvery, takeLatest } from 'redux-saga/effects'
-
-import { PROFILES } from '../config/people';
-import { questionsReady } from '../components/game/game.redux'
+import { call, takeLatest } from 'redux-saga/effects'
 
 import { generateQuestions } from './game'
 

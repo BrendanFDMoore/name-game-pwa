@@ -14,9 +14,6 @@ import {
 } from '../components/game/game.redux'
 import { resetScore, recordAnswer } from '../components/score/score.redux'
 
-const INITIALIZE = 'SAGAS/INITIALIZE';
-export const createInitializeAction = () => ({ type: INITIALIZE });
-
 /***************** WATCHERS ********************/
 export function* watchClickedPlay() {
   yield takeLatest(GAME_ACTIONS.CLICKED_PLAY, clickedPlay);
