@@ -54,6 +54,8 @@ export class Game extends Component {
       toggleShowIncorrect,
       toggleHardMode,
       allAnswers,
+      questionsAnswered,
+      correctlyAnswered,
       isHardMode = false,
     } = this.props;
 
@@ -66,15 +68,27 @@ export class Game extends Component {
       flexDirection:'column',
     };
 
-    const incorrectButtonLabelStyle = {
+    const buttonLabelStyle = {
       fontSize: '3vw',
+    };
+    const buttonStyle = {
+      marginTop: '10px',
     };
     const reviewIncorrect = incorrectToReview && incorrectToReview.length > 0 &&
       ( <div>
           <RaisedButton
           label={`Review ${incorrectToReview.length} Incorrect Response(s)`}
-          labelStyle={incorrectButtonLabelStyle}
+          labelStyle={buttonLabelStyle}
+          style={buttonStyle}
           onTouchTap={toggleShowIncorrect} /> 
+          { isHardMode && questionsAnswered >= 5 && correctlyAnswered <= (questionsAnswered / 2.0) + 0.1 &&
+            <RaisedButton
+              label={`Too Hard? Try Learning Mode!`}
+              labelStyle={buttonLabelStyle}
+              primary={true}
+              style={buttonStyle}
+              onTouchTap={toggleHardMode} />
+          }
         </div> );
 
     const activeGame = (
@@ -180,7 +194,7 @@ export class Game extends Component {
       fontSize: '3.5vh',
     };
 
-    const otherMode = isHardMode ? 'Easy' : 'Hard';
+    const otherMode = isHardMode ? 'Learning' : 'Challenge';
     const appMenu = (
       <IconMenu
         iconButtonElement={
@@ -190,7 +204,11 @@ export class Game extends Component {
         anchorOrigin={{horizontal: 'left', vertical: 'top'}}
       >
         <MenuItem primaryText={`Switch to ${otherMode} Mode`} onTouchTap={toggleHardMode} />
-        <MenuItem primaryText="About" />
+        { incorrectToReview && incorrectToReview.length > 0 &&
+          <MenuItem
+            primaryText={`Review ${incorrectToReview.length} Incorrect Response(s)`}
+            onTouchTap={toggleShowIncorrect} />}
+        {/*<MenuItem primaryText="About" />*/}
       </IconMenu>
     );
 
