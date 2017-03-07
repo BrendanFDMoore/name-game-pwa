@@ -54,11 +54,28 @@ export class Question extends Component {
       fontWeight: 600,
     };
 
+    const questionWrapperStyle = {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+    };
+
+    const answerWrapperStyle = {
+      width: '85%',
+      marginLeft: 'auto',
+      display: 'flex',
+      flexWrap: 'wrap',
+      justifyContent: 'center',
+      margin: 3,
+    };
+
     return (
-      <div className="Question">
+      <div className="Question" style={questionWrapperStyle}>
         <Paper style={paperStyle}> Who is this? </Paper>
         <Person name={question.name} imageFilename={question.image} group={question.group} shouldShowName={hasAnswered} />
-        { useAutocomplete ? autocompleteElement : answerElements }
+        <div style={answerWrapperStyle}>
+          { useAutocomplete ? autocompleteElement : answerElements }
+        </div>
       </div>
     );
   }

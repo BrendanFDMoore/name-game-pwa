@@ -27,18 +27,18 @@ export class Answer extends Component {
     } = this.props;
 
     const answerButtonStyle = {
-      width: '66%',
+      flexBasis: 'fit-content',
       margin: 3,
     };
 
     const buttonLabelStyle = {
-      fontSize: '3vw',
+      fontSize: '2.5vw',
     };
 
     // Crude check against window size to set fixed font for large breakpoints
     // Note: this will not adjust dynamically with screen resize.
     if (window && window.matchMedia && window.matchMedia("(min-width: 800px)").matches) {
-      buttonLabelStyle.fontSize = '24px';
+      buttonLabelStyle.fontSize = '20px';
     }
     
     let disabledBackgroundColor = grey300;
@@ -49,16 +49,14 @@ export class Answer extends Component {
     }
 
     return (
-      <div className="Answer" >
-        <RaisedButton
-          secondary={true}
-          style={answerButtonStyle}
-          label={label}
-          labelStyle={buttonLabelStyle}
-          disabled={disabled}
-          disabledBackgroundColor={disabledBackgroundColor}
-          onTouchTap={this.handleClick.bind(this)} />
-      </div>
+      <RaisedButton
+        secondary={true}
+        style={answerButtonStyle}
+        label={label}
+        labelStyle={buttonLabelStyle}
+        disabled={disabled}
+        disabledBackgroundColor={disabledBackgroundColor}
+        onTouchTap={this.handleClick.bind(this)} />
     );
   }
 }

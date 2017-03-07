@@ -14,6 +14,8 @@ import {
 } from '../components/game/game.redux'
 import { resetScore, recordAnswer } from '../components/score/score.redux'
 
+const MAX_MULTIPLE_CHOICE = 8;
+
 /***************** WATCHERS ********************/
 export function* watchClickedPlay() {
   yield takeLatest(GAME_ACTIONS.CLICKED_PLAY, clickedPlay);
@@ -58,7 +60,8 @@ export function* generateQuestions() {
         p => R.assoc('rng', Math.random(), p)
       )
       .sort((a, b) => a.rng - b.rng)
-      .filter((a, idx) => idx <= 2)
+      // Minus 2 because correct is in by default, and zero-indexing
+      .filter((a, idx) => idx <= (MAX_MULTIPLE_CHOICE - 2))
       .map(c => answersList.push({ text: c.name, correct: false}));
 
       const shuffledAnswers = answersList
