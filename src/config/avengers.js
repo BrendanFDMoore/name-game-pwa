@@ -1,9 +1,3 @@
-export const GENDERS = {
-  MALE: 'Male',
-  FEMALE: 'Female',
-  UNKNOWN: 'Unknown',
-};
-
 export const GROUPS = {
   HEROES: 'Heroes',
   VILLAINS: 'Villains',
@@ -14,7 +8,6 @@ export const PROFILES = [
   {
     name: 'Tony Stark (Iron Man)',
     group: GROUPS.HEROES,
-    gender: GENDERS.MALE,
     images: [
       'ironman1.jpg',
       'ironman2.jpg',
@@ -25,7 +18,6 @@ export const PROFILES = [
   {
     name: 'Nick Fury',
     group: GROUPS.HEROES,
-    gender: GENDERS.MALE,
     images: [
       'fury1.jpg',
       'fury2.jpg',
@@ -34,7 +26,6 @@ export const PROFILES = [
   {
     name: 'Steve Rogers (Captain America)',
     group: GROUPS.HEROES,
-    gender: GENDERS.MALE,
     images: [
       'captain1.jpg',
       'captain2.jpg',
@@ -44,7 +35,6 @@ export const PROFILES = [
   {
     name: 'Natasha Romanova (Black Widow)',
     group: GROUPS.HEROES,
-    gender: GENDERS.FEMALE,
     images: [
       'widow1.jpg',
       'widow2.jpg',
@@ -53,7 +43,6 @@ export const PROFILES = [
   {
     name: 'Pepper Potts',
     group: GROUPS.SIDEKICKS,
-    gender: GENDERS.FEMALE,
     images: [
       'pepper1.jpg',
       'pepper2.jpg',
@@ -63,7 +52,6 @@ export const PROFILES = [
   {
     name: 'Loki',
     group: GROUPS.VILLAINS,
-    gender: GENDERS.MALE,
     images: [
       'loki1.jpg',
       'loki2.jpg',
@@ -72,7 +60,6 @@ export const PROFILES = [
   {
     name: 'Agent Peggy Carter',
     group: GROUPS.SIDEKICKS,
-    gender: GENDERS.FEMALE,
     images: [
       'carter1.jpg',
       'carter2.jpg',
@@ -81,7 +68,6 @@ export const PROFILES = [
   {
     name: 'Jane Foster',
     group: GROUPS.SIDEKICKS,
-    gender: GENDERS.FEMALE,
     images: [
       'janefoster1.jpg',
       'janefoster2.jpg',
@@ -90,7 +76,6 @@ export const PROFILES = [
   {
     name: 'Scarlet Witch',
     group: GROUPS.HEROES,
-    gender: GENDERS.FEMALE,
     images: [
       'scarletwitch1.jpg',
       'scarletwitch2.jpg',
